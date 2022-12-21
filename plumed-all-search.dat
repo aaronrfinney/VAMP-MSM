@@ -1,0 +1,56 @@
+### Plumed driver file to calculate CVs to identify two-step nucleation of colloid crystals
+### Dec 2022
+### Please cite Aaron R. Finney and Matteo Salvalaglio
+
+### Particle group
+grp: GROUP ATOMS=1-388
+
+### Coordination number distribution 
+cn: COORDINATIONNUMBER SPECIES=grp SWITCH={RATIONAL R_0=6.4 D_MAX=7.0} MEAN  
+# 1. Number of liquid-like colloids based on coordination
+ncm1: COORDINATIONNUMBER SPECIES=grp SWITCH={RATIONAL R_0=6.4 D_MAX=7.0} MORE_THAN={RATIONAL R_0=3.0}
+ncl: COMBINE ARG=ncm1.morethan POWERS=1 PERIODIC=NO
+# 2. Number of solid like particles based on coordinationx
+ncm2: COORDINATIONNUMBER SPECIES=grp SWITCH={RATIONAL R_0=6.4 D_MAX=7.0} MORE_THAN={RATIONAL R_0=6.0}
+ncs: COMBINE ARG=ncm2.morethan POWERS=1 PERIODIC=NO
+
+### Calculate q4
+# 3. Global Q4
+q4: Q4 SPECIES=grp SWITCH={RATIONAL R_0=6.4 D_MAX=7.0} MEAN LOWMEM
+# 4. Local Q4
+lq4: LOCAL_Q4 SPECIES=q4 SWITCH={RATIONAL R_0=6.4 D_MAX=7.0} MEAN LOWMEM
+flq4: MFILTER_LESS DATA=lq4 SWITCH={GAUSSIAN R_0=0.3 D_MAX=0.31}
+cnq4: COORDINATIONNUMBER SPECIES=flq4 SWITCH={RATIONAL R_0=6.4 D_MAX=7.0} MEAN MORE_THAN={RATIONAL R_0=6.0}
+# 5. Number of local q4>5 particles
+ncnq4: COMBINE ARG=cnq4.morethan, POWERS=1 PERIODIC=NO 
+# 6. Local average q4
+laq4: LOCAL_AVERAGE SPECIES=q4 SWITCH={RATIONAL RATIONAL R_0=6.4 D_MAX=7.0} MEAN
+
+
+### Calculate q6
+# 7. Global Q6
+q6: Q6 SPECIES=grp SWITCH={RATIONAL R_0=6.4 D_MAX=7.0} MEAN LOWMEM
+# 8. Local Q6
+lq6: LOCAL_Q6 SPECIES=q6 SWITCH={RATIONAL R_0=6.4 D_MAX=7.0} MEAN LOWMEM
+flq6: MFILTER_MORE DATA=lq6 SWITCH={GAUSSIAN R_0=0.69 D_MAX=0.70}
+cnq6: COORDINATIONNUMBER SPECIES=flq6 SWITCH={RATIONAL R_0=6.4 D_MAX=7.0} MEAN MORE_THAN={RATIONAL R_0=6.0}
+# 9. Number of local q6>5 particles
+ncnq6: COMBINE ARG=cnq6.morethan, POWERS=1 PERIODIC=NO
+# 10. Local average q6
+laq6: LOCAL_AVERAGE SPECIES=q6 SWITCH={RATIONAL RATIONAL R_0=6.4 D_MAX=7.0} MEAN
+
+
+### S2 Entropy
+# 11. S2
+ent: PAIRENTROPY ATOMS=1-388 MAXR=12.0 SIGMA=0.01
+
+
+### DFS on particle-particle contact matrix
+mat: CONTACT_MATRIX ATOMS=cn SWITCH={RATIONAL R_0=6.4 D_MAX=7.0}
+dfs: DFSCLUSTERING MATRIX=mat
+# 12. Number of particles in the largest cluster
+clust1nat: CLUSTER_NATOMS CLUSTERS=dfs CLUSTER=1
+
+
+### PRINT
+PRINT ARG=cn.mean,ncl.*,ncs.*,q4.mean,lq4.mean,ncnq4,laq4.mean,q6.mean,lq6.mean,ncnq6,laq6.mean,ent,clust1nat FILE=CVscreening.dat
