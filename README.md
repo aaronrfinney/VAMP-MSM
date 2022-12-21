@@ -7,11 +7,11 @@ A recent version of LAMMPS with the colloid package installed is required to run
 To run the Python scripts and interactive notebooks, numpy, scipy, seaborn, scikit-learn, mdanalysis , pyemma and deeptime are all reqired.
 
 
-1. To run the particle simulations, execute run-sims.sh. This will perform 1000 independent simulations using the LAMMPS input file in ./master. The script also executes the PLUMED driver and extracts 19 CVs from LAMMPS and PLUMED outputs nto a file called CVscreeningeneptm.dat.
+1. To run the particle simulations, execute run-sims.sh. This will perform 1000 independent simulations using the LAMMPS input file in ./master. New run* directories will be created. The script also executes the PLUMED driver and extracts 19 CVs from LAMMPS and PLUMED outputs into a file called CVscreeningeneptm.dat.
 
-2. We use the check-crystals.sh script to dtermine which simulations provide crystallising trajectories based on a threshold in the potential energies per particle, reported in the log.lammps file. 
+2. We use the check-crystals.sh script to determine which simulations provide crystallising trajectories based on a threshold in the potential energies per particle, reported in the log.lammps file. 
 
-2. To compute the VAMP-2 scores for all possible combinations of 17 CVs, we used the approach in VAMP-scores-CVs1-6.ipynb, currently set-up to do this for just 1-5 CV dimensions.
+2. To compute the VAMP-2 scores for all possible combinations of 17 CVs, we used the approach in VAMP-scores-CVs1-6.ipynb, currently set-up to do determine VAMP-2 scores for 1-5 CV dimensions.
 
 3. CVdist-17CVs.ipynb sorts through all of the possible RCs and VAMP-2 scores to rank them and analyse their distributions.
 
