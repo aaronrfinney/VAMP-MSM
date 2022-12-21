@@ -3,7 +3,7 @@
 This repository contains scripts and input files to generate the data used in 'A Variational Approach to Determine Two-Step Crystallisation Reaction Coordinates' by A. R. Finney and M. Salvalaglio. Please cite:
 
 
-A recent version of LAMMPS with the colloid package installed is required to run the simulations. A verson of PLUMED beyond v. 2.5 is required with the crystallisation module installed.
+A recent version of LAMMPS with the colloid package installed is required to run the simulations. A verson of PLUMED beyond v. 2.5 is required with the crystallisation module installed. (PLUMED-driver.zip is available at PLUMED-NEST).
 To run the Python scripts and interactive notebooks, numpy, scipy, seaborn, scikit-learn, mdanalysis , pyemma and deeptime are all reqired.
 
 
