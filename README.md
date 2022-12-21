@@ -15,4 +15,4 @@ To run the Python scripts and interactive notebooks, numpy, scipy, seaborn, scik
 
 3. CVdist-17CVs.ipynb sorts through all of the possible RCs and VAMP-2 scores to rank them and analyse their distributions.
 
-4. With knowledge of the best performing RCs, we apply TICA to project the high dimension CV RCs onto two TICA coordinates and construct bayesian MSMs using discrete TICA trajectories following the approach in MSM2_TICA.ipynb.
+4. With knowledge of the best performing RCs, we apply TICA to project the high dimension CV RCs onto two TICA coordinates and construct Bayesian MSMs using discrete TICA trajectories following the approach in MSM2_TICA.ipynb.
